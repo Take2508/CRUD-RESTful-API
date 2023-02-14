@@ -1,8 +1,9 @@
+using Microsoft.AspNetCore.Mvc;
+
 using FastDeliveryAPI.Data;
 using FastDeliveryAPI.Entity;
 using FastDeliveryAPI.Repositories.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-
+using FastDeliveryAPI.Models;
 
 namespace FastDeliveryAPI.Controllers;
 
@@ -11,80 +12,77 @@ namespace FastDeliveryAPI.Controllers;
 public class CustomerController : ControllerBase
 {
     private readonly ICustomerRepository _customerRepository;
-
-    public CustomerController(FastDeliveryDbContext context)
+    private readonly IUnitOfWorks _unitOfWork;
+    public CustomerController(ICustomerRepository customerRepository, IUnitOfWorks unitOfWork)
     {
-        _context = context;
+        _customerRepository = customerRepository;
+        _unitOfWork = unitOfWork;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<Customer>> Get()
+    public async Task<ActionResult<IEnumerable<Customer>>> Get()
     {
-        var customers = _context.Customers.ToList();
+        var customers = await _customerRepository.GetAll();
         return Ok(customers);
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> CreateCustomer([FromBody] CreateCustomerRequest request, CancellationToken cancellationToken)
+    {
+        var customer = new Customer(request.Name,
+            request.PhoneNumber,
+            request.Email,
+            request.Address
+        );
 
-    [HttpPost("Add-Customer")]
-    public async Task<ActionResult> CreateCustomer(Customer customer)
-    {
-        if (ModelState.IsValid)
-        {
-            var result = _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
-        }
-        return Ok(customer);
-    }
-    [HttpPut("Modify-Customer")]
-    public async Task<ActionResult> ModifyCustomer(Customer customer)
-    {
-        if (ModelState.IsValid)
-        {
-            if (_context.Customers.Where(x => x.Id == customer.Id).Any())
-            {
-                var result = _context.Customers.Update(customer);
-                await _context.SaveChangesAsync();
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status404NotFound, "Error: Nothing found");
-            }
-        }
-        return Ok(customer);
+        _customerRepository.Add(customer);
+
+        await _unitOfWork.SaveChangeAsync();
+
+        return CreatedAtAction(
+            nameof(GetCustomerById),
+            new {id = customer.Id},
+            customer);
     }
 
-    [HttpDelete("Delete-Customer/{id}")]
-    public ActionResult DeleteCustomer(int id)
+     [HttpPut("{id:int}")]
+    public async Task<IActionResult> UpdateCustomer(int id,[FromBody] UpdateCustomerRequest request, CancellationToken cancellationToken)
     {
-        var objects = _context.Customers.Find(id);
-        if (objects != null)
+        if (request.Id != id)
         {
-
-            _context.Customers.Remove(objects);
-            _context.SaveChanges();
-            return StatusCode(StatusCodes.Status200OK, objects);
+            return BadRequest("Body Id is not equal than Url Id");
         }
-        else
+        var customer = await _customerRepository.GetCustomerById(id);
+        if (customer is null)
         {
-            return StatusCode(StatusCodes.Status404NotFound, "Error: Nothing found ");
+            return NotFound($"Customer Not Found With the Id {id}");
         }
 
+
+        customer.ChangeName(request.Name);
+        customer.ChangePhoneNumber(request.PhoneNumber);
+        customer.ChangeAddress(request.Address);
+        customer.ChangeEmail(request.Email);
+        customer.ChangeStatus(request.Status);
+        
+
+        _customerRepository.Update(customer);
+
+        await _unitOfWork.SaveChangeAsync();
+
+        return NoContent();
+    
     }
-
-    [HttpGet("Get-Customer/{id}")]
-    public ActionResult FindCustomers(int id)
+    [HttpGet("{id:int}")]
+    public async Task<IActionResult> GetCustomerById(int id, CancellationToken cancellationToken)
     {
-        var find = from s in _context.Customers select s;
-
-        if (id != 0)
+        var customer = await _customerRepository.GetCustomerById(id);
+        if (customer is null)
         {
-            find = find.Where(s => s.Id == id);
+            NotFound("Customer Not Found With the Id {id}");
+        }
 
-        }
-        else
-        {
-            return StatusCode(StatusCodes.Status404NotFound, "Error: Nothing found");
-        }
-        return Ok(find.ToList());
-    }
+        return Ok (customer);
+}
 
 }
