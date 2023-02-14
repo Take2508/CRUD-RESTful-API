@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace FastDeliveryApi.Controllers;
+namespace FastDeliveryAPI.Controllers;
 
 [ApiController]
-[Route("pepito")]
+[Route("[controller]")]
 public class WeatherForecastController : ControllerBase
 {
     private static readonly string[] Summaries = new[]
@@ -21,9 +21,9 @@ public class WeatherForecastController : ControllerBase
     [HttpGet("obtener-clima/{name}")]
     public WeatherForecast Get(string name)
     {
-        if(!String.IsNullOrWhiteSpace(name))
+        if (!string.IsNullOrWhiteSpace(name))
         {
-             return  Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                 TemperatureC = Random.Shared.Next(-20, 55),
@@ -32,6 +32,7 @@ public class WeatherForecastController : ControllerBase
         }
         WeatherForecast response = new();
         return response;
-       
     }
+
+
 }

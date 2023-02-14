@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryApi\\FastDeliveryApi.csproj": {}
+    "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryAPI\\FastDeliveryAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryApi\\FastDeliveryApi.csproj": {
+    "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryAPI\\FastDeliveryAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryApi\\FastDeliveryApi.csproj",
-        "projectName": "FastDeliveryApi",
-        "projectPath": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryApi\\FastDeliveryApi.csproj",
+        "projectUniqueName": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryAPI\\FastDeliveryAPI.csproj",
+        "projectName": "FastDeliveryAPI",
+        "projectPath": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryAPI\\FastDeliveryAPI.csproj",
         "packagesPath": "C:\\Users\\Kevin Vasquez\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryApi\\obj\\",
+        "outputPath": "C:\\Users\\Kevin Vasquez\\Desktop\\MODULO 1\\FastDeliveryAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Kevin Vasquez\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -47,6 +47,10 @@
               "suppressParent": "All",
               "target": "Package",
               "version": "[7.0.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[7.0.2, )"
             },
             "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",

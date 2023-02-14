@@ -1,4 +1,4 @@
-namespace FastDeliveryApi;
+namespace FastDeliveryAPI;
 
 public class WeatherForecast
 {

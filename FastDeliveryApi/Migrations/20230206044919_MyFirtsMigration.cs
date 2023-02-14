@@ -5,10 +5,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace FastDeliveryApi.Migrations
+namespace FastDeliveryAPI.Migrations
 {
     /// <inheritdoc />
-    public partial class MyFirsMigration : Migration
+    public partial class MyFirtsMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,8 +35,8 @@ namespace FastDeliveryApi.Migrations
                 columns: new[] { "Id", "Address", "Email", "Name", "PhoneNumberCustomer", "Status" },
                 values: new object[,]
                 {
-                    { 1, "San Miguel", "suleyma@univo.edu.sv", "Suleyma Lopez", "0000-0000", true },
-                    { 2, "San Salvadocr", "kvasquez@univo.edu.sv", "Kevin Vasquez", "2200-5500", true }
+                    { 1, "San miguel", "suleima@univo.edu.sv", "Suleima lopez", "2200-4400", true },
+                    { 2, "San salvador", "kevin@univo.edu.sv", "Kevin Vasquez", "8800-4400", true }
                 });
         }
 
