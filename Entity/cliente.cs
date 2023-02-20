@@ -1,3 +1,4 @@
+using FastDeliveryAPI.Exceptions;
 using FastDeliveryAPI.Repositories;
 using FastDeliveryAPI.Repositories.Interfaces;
 
@@ -13,6 +14,13 @@ public class Customer : IAuditableEntity
         Address = address;
         Status = true ;
     }
+
+    public Customer()
+    {
+        
+    }
+
+    
     public int Id { get; set; }
     public string Name { get; private set; } 
     public string PhoneNumber { get; private set; } 
@@ -20,9 +28,21 @@ public class Customer : IAuditableEntity
     public string Address { get; private set; } 
     public bool Status { get; private set; }
 
+   
+
     public DateTime CreatedOnUtc {get; set;}
 
     public DateTime? ModifiedOnUtc {get; set;}
+
+    public void ValidateNumber (string telefono)
+    {
+        if (telefono.Length  !=8 )
+        {
+            throw new ValideteNumberException(Name);
+        }
+        PhoneNumber =telefono;
+
+    }
 
     public void  ChangeName (string name)
     {
@@ -31,6 +51,7 @@ public class Customer : IAuditableEntity
             Name = name;
         }
     }
+
 
     public void  ChangePhoneNumber (string phoneNumber)
     {

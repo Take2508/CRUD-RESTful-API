@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using FastDeliveryAPI.Data;
 using FastDeliveryAPI.Repositories.Interfaces;
 using FastDeliveryAPI.Repositories;
+using FastDeliveryAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +41,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.UseCors("AllowAll");
 

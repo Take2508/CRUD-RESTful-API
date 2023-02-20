@@ -1,11 +1,10 @@
 namespace FastDeliveryAPI.Models;
 
-public record UpdateCustomerRequest(
-    int Id,
+public record CustomerReqponse
+(   int Id,
     string Name,
     string PhoneNumber,
     string Email,
     string Address,
-    bool Status,
-    decimal CreditLimit
+    bool Status
 );
